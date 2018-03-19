@@ -54,6 +54,11 @@ CriptoAccount.prototype.transfer = function(account1, account2, amount) {
         alert('No se puede transferir ese monto.')
         return
     }
+
+    if (account1.symbol === account2.symbol) {
+        alert('No se puede hacer transferencia a la misma cuenta.')
+        return
+    }
     //realiza la conversion a USD antes de cambirla a la moneda destino
     console.log((account1.balance * account1.rateInUSD) / account2.rateInUSD)
     amountDestiny = (account1.balance * account1.rateInUSD) / account2.rateInUSD

@@ -17,24 +17,24 @@
         <div class="row justify-content-center ">
             <div class="col6" id="wallet">
                 <div>
-                    <input class="balance" type="text">
+                    <input class="balance" type="number">
                     <select class="coins" name=""></select>
                 </div>
                 <div>
-                    <input class="balance" type="text">
+                    <input class="balance" type="number">
                     <select class="coins" name=""></select>
                 </div>
                 <div>
-                    <input class="balance" type="text">
+                    <input class="balance" type="number">
                     <select class="coins" name=""></select>
                 </div>
                 <div>
-                    <input class="balance" type="text">
+                    <input class="balance" type="number">
                     <select class="coins" name=""></select>
                 </div>
                 <hr>
                 <div>
-                    <input id="totalbalance" type="text">
+                    <input id="totalbalance" type="number">
                     <select name="">
                                                     <option value="USD" >USD</option>
                                             </select>
@@ -44,7 +44,7 @@
             <div class="col6" id="transfers">
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="amount-transfer" id="">
+                        <input type="number" name="" id="amount-transfer" value="0">
                         <select class="coinsTransfer" name="" id="transfer1"></select>
                     </div>
 
@@ -52,13 +52,13 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <input type="text" name="" id="">
+                        <input type="number" name="" id="">
                         <select class="coinsTransfer" name="" id="transfer2"></select>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col6">
-                        <button id="transfer" type="submit" class="btn btn-bg-primary">Transfer</button>
+                        <button id="transfer" type="submit" class="btn btn-bg-primary" onclick="Transfer()">Transfer</button>
                     </div>
                 </div>
 
@@ -93,11 +93,35 @@
 
             fillOptions()
             fillBalances()
+            TotalBalance()
 
 
 
 
 
+        }
+
+
+        //Realiza la transferencia
+        function Transfer() {
+
+            var account1
+            var account2
+            var amount = Number(document.getElementById("amount-transfer").value).toFixed(2)
+            if (document.getElementById("transfer1").value === document.getElementById("transfer2").value) {
+
+                alert('No se puede seleccionar la misma cuenta');
+                return;
+            }
+
+            account1 = cartera.accounts.filter(obj => obj.getSymbol() === document.getElementById("transfer1").value)
+            account2 = cartera.accounts.filter(obj => obj.getSymbol() === document.getElementById("transfer2").value)
+
+            console.log(account1[0])
+            console.log(account2[0])
+            account1[0].transfer(account1[0], account2[0], amount);
+
+            TotalBalance()
 
         }
 
@@ -106,11 +130,12 @@
             for (let index = 0; index < cartera.accounts.length; index++) {
                 console.log(document.getElementsByClassName("balance")[index])
                 accountBalances[index].value = cartera.accounts[index].getBalance()
-                options[index].innerHTML = "<option value=''>" + cartera.accounts[index].getSymbol() + "</option>"
+                options[index].innerHTML = "<option " + cartera.accounts[index].getSymbol() + "</option>"
             }
 
         }
 
+        //Obtiene el balance total despues de lagun cambio
         function TotalBalance() {
             fillBalances()
             document.getElementById("totalbalance").value = cartera.TotalBalance()
@@ -126,7 +151,7 @@
                 var l = optionsTransfer.length
                     //console.log(options)
                 for (let index = 0; index < l; index++) {
-                    optionsTransfer[index].innerHTML += "<option value=''>" + obj + "</option>"
+                    optionsTransfer[index].innerHTML += `<option value=\"${obj}\">${obj}</option>`
 
                 }
 
