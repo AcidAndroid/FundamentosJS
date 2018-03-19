@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Crypto wallet</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body onload="carga()">
+
+    <div class="container ">
+        <div class="row justify-content-center ">
+            <div class="col6" id="wallet">
+                <div>
+                    <input class="balance" type="text">
+                    <select class="coins" name=""></select>
+                </div>
+                <div>
+                    <input class="balance" type="text">
+                    <select class="coins" name=""></select>
+                </div>
+                <div>
+                    <input class="balance" type="text">
+                    <select class="coins" name=""></select>
+                </div>
+                <div>
+                    <input class="balance" type="text">
+                    <select class="coins" name=""></select>
+                </div>
+                <hr>
+                <div>
+                    <input id="totalbalance" type="text">
+                    <select name="">
+                                                    <option value="USD" >USD</option>
+                                            </select>
+                </div>
+            </div>
+
+            <div class="col6" id="transfers">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="amount-transfer" id="">
+                        <select class="coinsTransfer" name="" id="transfer1"></select>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="" id="">
+                        <select class="coinsTransfer" name="" id="transfer2"></select>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col6">
+                        <button id="transfer" type="submit" class="btn btn-bg-primary">Transfer</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="crypto.js"></script>
+    <script>
+        //obtengo cuaantos text tengo para los balances de cuenta
+        var accountBalances = document.getElementsByClassName("balance")
+            //Obtengo los coins existentes para los drop down
+        var options = document.getElementsByClassName("coins")
+        var optionsTransfer = document.getElementsByClassName("coinsTransfer")
+
+        //Genero el objeto
+        var cartera = new Wallet(fillWallet());
+
+        function carga(params) {
+
+            console.log(cartera);
+
+            fillOptions()
+            fillBalances()
+
+
+
+
+
+
+        }
+
+        function fillBalances() {
+            //por cada cuenta lo llena en su respectivo text y dropdown
+            for (let index = 0; index < cartera.accounts.length; index++) {
+                console.log(document.getElementsByClassName("balance")[index])
+                accountBalances[index].value = cartera.accounts[index].getBalance()
+                options[index].innerHTML = "<option value=''>" + cartera.accounts[index].getSymbol() + "</option>"
+            }
+
+        }
+
+        function TotalBalance() {
+            fillBalances()
+            document.getElementById("totalbalance").value = cartera.TotalBalance()
+
+        }
+
+        //Por cada coin lo agrego a los dropdown
+        function fillOptions() {
+
+            cryptoSymbols.map(obj => {
+                //console.log(document.getElementsByClassName("coins"))
+
+                var l = optionsTransfer.length
+                    //console.log(options)
+                for (let index = 0; index < l; index++) {
+                    optionsTransfer[index].innerHTML += "<option value=''>" + obj + "</option>"
+
+                }
+
+                //document.getElementsByClassName("coins").innerHTML = "<option value=''>" + obj + "</option>"
+                //console.log(obj)
+            })
+
+        }
+    </script>
+</body>
+
+</html>

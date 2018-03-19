@@ -22,7 +22,7 @@ function Wallet(accounts /*, balance*/ ) {
             acum += numero.balance * numero.rateInUSD
                 //console.log(acum)
             return acum
-        }, 0)
+        }, 0).toFixed(2)
     }
 }
 
@@ -51,7 +51,8 @@ CriptoAccount.prototype.transfer = function(account1, account2, amount) {
     var amountDestiny = 0
         //valida que no puedas hacer una trasferencia mayor al monto de la cuenta1
     if (account1.balance < amount) {
-        alert('No se puede transferir ese monto.');
+        alert('No se puede transferir ese monto.')
+        return
     }
     //realiza la conversion a USD antes de cambirla a la moneda destino
     console.log((account1.balance * account1.rateInUSD) / account2.rateInUSD)
